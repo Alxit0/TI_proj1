@@ -6,7 +6,7 @@ from scipy.io import wavfile
 import huffmancodec as huf
 
 
-def get_matrix(nome_ficheiro, shape=1):
+def get_matrix(nome_ficheiro, shape=1, alfabeto=''):
     # camiho para o ficheiro
     # IMPORTANTE - ter os ficheiros numa pasta chamada de 'data'
     fonte = 'data/' + nome_ficheiro
@@ -28,31 +28,46 @@ def get_matrix(nome_ficheiro, shape=1):
         f, temp = wavfile.read(fonte)
 
     # creation
-    alf_base = set(temp)  # alfabeto base
     if shape == 2:
-        # caso seja para agrupar de 2 em 2
-        d = {f'{i} {j}': 0 for i in alf_base for j in alf_base}
         # retirar elemento extra caso o num de elementos seja impar
         desvio = temp.shape[0] % shape
         if desvio != 0:
             temp = temp[:-desvio]
 
-        if shape > 1:
-            temp = np.asarray(  # transformar tudo en ndarray
-                [*map(
-                    lambda x: ' '.join(map(str, x)),  # transformar em str com espacos
-                    np.reshape(temp, (temp.shape[0] // 2, 2))  # mudar a forma para 2 em 2
-                        )
-                 ]
-            )
+        temp = np.asarray(  # transformar tudo en ndarray
+            [*map(
+                lambda x: ' '.join(map(str, x)),  # transformar em str com espacos
+                np.reshape(temp, (temp.shape[0] // 2, 2))  # mudar a forma para 2 em 2
+                    )
+             ]
+        )
+        # obter a contagem sem elementos a zero (sem usar o alfabeto)
+        d = {}
+        for i in temp:
+            if i in d:
+                d[i] += 1
+            else:
+                d[i] = 1
     else:
         # so de um em um
-        d = {i: 0 for i in alf_base}
+        parcelas = alfabeto.split(',')
+        d = {}
+        for j in parcelas:
+            inicio, fim = sorted(j.split('-'))
+            if inicio.isalpha():
+                # caso sejam letras
+                for i in range(ord(inicio), ord(fim)+1):
+                    d[chr(i)] = 0
+            else:
+                # caso sejam numeros
+                for i in range(int(inicio), int(fim)+1):
+                    d[i] = 0
+        # print(d)
 
-    # obter a contagem
-    for i in temp:
-        if i in d:
-            d[i] += 1
+        # obter contagem utilizando o alfabeto (tem zeros)
+        for i in temp:
+            if i in d:
+                d[i] += 1
 
     return temp, d  # dados do ficherio organizados, contagem(alfabeto = d.keys())
 
@@ -66,9 +81,12 @@ def histogram(cont: dict):
 
 
 def entropia(data: np.ndarray, cont):
-    temp = data.shape[0]
-    prob = [i / temp for i in cont.values()]
-    return -sum(i * log2(i) for i in prob if i != 0)
+    tam = data.shape[0]
+    prob = np.asarray(list(cont.values()))  # passar os valores para ndarray
+    prob = prob[prob.nonzero()]/tam  # tirar os zeros e dividir pelo tamanho
+
+    # nao da para mapear log2 diretamente em nd array
+    return -sum(i * log2(i) for i in prob)
 
 
 def entropia_huf(data, cont):
@@ -84,7 +102,9 @@ def entropia_huf(data, cont):
 
 values = ['english.txt', 'guitarSolo.wav', 'homer.bmp', 'homerBin.bmp', 'kid.bmp']
 if __name__ == '__main__':
-    passo = 2
-    dados, contagem = get_matrix(values[4], passo)
-
+    passo = 1
+    dados, contagem = get_matrix(values[0], passo, 'A-Z,a-z')
+    #print(dados)
+    #print(contagem)
+    print(entropia(dados, contagem) / passo)
     print(entropia_huf(dados, contagem) / passo)
