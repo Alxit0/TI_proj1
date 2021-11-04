@@ -22,11 +22,11 @@ def EntropiaCond(X, Y):
 
 
 def inf_mutua(X, Y):
-    return entropia(X) - EntropiaConj(X, Y)
+    return entropia(X) + entropia(Y) - EntropiaConj(X, Y)
 
 
 lenght = len(query)
-passo = 2
+passo = 1
 query = np.asarray(query)
 for i in range(0, len(target)-lenght, passo):
     temp = np.asarray(target[i:i+lenght])
