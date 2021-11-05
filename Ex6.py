@@ -5,24 +5,20 @@ target = [6, 8, 9, 7, 2, 4, 9, 9, 4, 9, 1, 4, 8, 0, 1, 2, 2, 6, 3, 2, 0, 7, 4, 9
           4, 8, 5, 2, 7, 8, 0, 7, 4, 8, 5, 7, 4, 3, 2, 2, 7, 3, 5]
 
 
-def entropia(X):
-    unique, cnt = np.unique(X, return_counts=True, axis=0)
-    prob = cnt/len(X)
-    en = np.sum((-1)*prob*np.log2(prob))
-    return en
+def entropia(a):
+    _, cnt = np.unique(a, return_counts=True, axis=0)
+    prob = cnt/len(a)
+    return np.sum(-1*prob*np.log2(prob))
 
 
-def EntropiaConj(X, Y):
-    XY = np.c_[X, Y]
-    return entropia(XY)
+def entropia_conj(a, b):
+    # same as entropia([*zip(a, b)])
+    return entropia(np.c_[a, b])
 
 
-def EntropiaCond(X, Y):
-    return EntropiaConj(X, Y) - entropia(Y)
-
-
-def inf_mutua(X, Y):
-    return entropia(X) + entropia(Y) - EntropiaConj(X, Y)
+def inf_mutua(a, b):
+    # H(a) + H(b) - Hconjunta(a, b)
+    return entropia(a) + entropia(b) - entropia_conj(a, b)
 
 
 lenght = len(query)
@@ -30,5 +26,4 @@ passo = 1
 query = np.asarray(query)
 for i in range(0, len(target)-lenght, passo):
     temp = np.asarray(target[i:i+lenght])
-    a = inf_mutua(query, temp)
-    print(a)
+    print(inf_mutua(query, temp))
