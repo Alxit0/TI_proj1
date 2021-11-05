@@ -18,7 +18,10 @@ def get_matrix(nome_ficheiro, shape=1, alfabeto=''):
     """
     # camiho para o ficheiro
     # IMPORTANTE - ter os ficheiros numa pasta chamada de 'data'
-    fonte = 'data/' + nome_ficheiro
+    if nome_ficheiro.count("/")==0:
+        fonte = 'data/' + nome_ficheiro
+    else:
+        fonte = nome_ficheiro
     tipo = fonte.split('.')[-1]  # obter o tipo de fixeiro
     temp = None
 
@@ -35,6 +38,8 @@ def get_matrix(nome_ficheiro, shape=1, alfabeto=''):
     elif tipo == 'wav':
         # som
         f, temp = wavfile.read(fonte)
+        if len(temp.shape) != 1:
+            temp = temp[:, 0]  # so apanhar o primeiro canal (nao sei se o 0 é o esquerdo ou o direito)
 
     # creation
     if shape == 2:
