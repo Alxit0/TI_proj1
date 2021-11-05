@@ -7,6 +7,15 @@ import huffmancodec as huf
 
 
 def get_matrix(nome_ficheiro, shape=1, alfabeto=''):
+    """
+    :param nome_ficheiro: Nome do ficheiro
+    :param shape: passo para organizar a informacao (default = 1)
+    :param alfabeto: setar o alfabeto (so funciona caso o 'shape' = 1)
+    a-z => todas as letras de 'a' a 'z'
+    A-Z => versao 'a-z' mass em maiusculas
+    x-y => (em que x,y pertencem a N) numeros do x ate ao y
+    :return: ndarray de dados, contagem em forma de dicionario
+    """
     # camiho para o ficheiro
     # IMPORTANTE - ter os ficheiros numa pasta chamada de 'data'
     fonte = 'data/' + nome_ficheiro
