@@ -33,6 +33,24 @@ def visualizacao_dados(data: np.ndarray):
 
 
 if __name__ == '__main__':
+    """
+    Nao sei se o que eu fiz esta certo. Sei que a alinhea a) da o mesmo resultado
+      e fiz o resto a partir dai.
+    
+    Na alinhea b) apenas gerei a matriz das ifm's da mesma forma do que na a) e depois puz
+      num grafico
+    
+    Na alinjea c) gerei a matriz das ifm's para cada um dos ficheiros pretendidos
+      e achei o maximo de cada uma delas.
+    Nao achei o instante em que elas aparecem, achei o valor ifm em si,
+      caso o stor queira o instante na musica vao ter de pensar no passo
+      que estamos a dar. Mas provavelmente nao vai ser porque para isso iamos
+      precisar da frequencia e nos estamos a perde-la. Caso seja vao ter de escrever
+      uma funcao nova para gerar a matriz mas so para som.
+      
+    IMPORTANTE - nao se esquecao de ver como usar o alfabeto.
+    """
+
     def alinhea_a():
         # nao sei para que serve o alfabeto aqui.
         amostra = [2, 6, 4, 10, 5, 9, 5, 8, 0, 8]
