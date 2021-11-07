@@ -99,8 +99,8 @@ def entropia(data: np.ndarray, cont):
     prob = np.asarray(list(cont.values()))  # passar os valores para ndarray
     prob = prob[prob.nonzero()]/tam  # tirar os zeros e dividir pelo tamanho
 
-    # nao da para mapear log2 diretamente em nd array
-    return -sum(i * log2(i) for i in prob)
+    # descobri
+    return -np.log2(prob)
 
 
 def entropia_huf(data, cont):

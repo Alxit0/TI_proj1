@@ -8,7 +8,7 @@ def informacao_mutua(query, target, passo=1):
         return np.sum(-1*prob*np.log2(prob))
 
     def entropia_conj(a, b):
-        # same as entropia([*zip(a, b)])
+        # o mesmo que entropia([*zip(a, b)])
         return entropia(np.c_[a, b])
 
     def inf_mutua(a, b) -> float:
@@ -76,4 +76,15 @@ if __name__ == '__main__':
             evolucao_ifm = informacao_mutua(amostra, objetivo, passo=len(amostra)//4)
             print(i[9:15]+" -> ", np.max(evolucao_ifm))  # informacao mutua maxima
 
-    alinhea_b()
+    '''
+    IMPORTANTE - ter os ficheiros para este exercicio numa pasta chamada 'data_ex6'
+    IMPORTANTE - Na alinhea b) nao sei como fechar um grafico depois de algum tempo e depois abrir outro
+                   se quiserem ver os dois tem de os mudar (basta 'descomentar' um e comentar o outro)
+                 Se quizerem trabalhar nisso nao reclamo.
+    IMPORTANTE - Na alinhea c) do 'Song05' ate ao final demora uns segundos mas nao se preocupem
+                   que ele corre. Nao sei onde melhorar mais
+    '''
+
+    # alinhea_a()
+    # alinhea_b()
+    alinhea_c()
