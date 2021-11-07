@@ -118,7 +118,7 @@ values = ['english.txt', 'guitarSolo.wav', 'homer.bmp', 'homerBin.bmp', 'kid.bmp
 if __name__ == '__main__':
     passo = 1
     dados, contagem = get_matrix(values[0], passo, 'A-Z,a-z')
-    #print(dados)
-    #print(contagem)
+    # print(dados)
+    # print(contagem)
     print(entropia(dados, contagem) / passo)
     print(entropia_huf(dados, contagem) / passo)
