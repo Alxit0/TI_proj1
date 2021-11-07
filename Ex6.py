@@ -59,4 +59,21 @@ if __name__ == '__main__':
         print(ifm)
         visualizacao_dados(ifm)
 
+    def alinhea_c():
+        # gerar os nomes para os ficheiros
+        names = []
+        for i in range(1, 8):
+            temp_name = f"data_ex6/Song0{i}.wav"
+            names += temp_name,
+
+        # iniciar a query
+        amostra, _ = get_matrix("data_ex6/saxriff.wav", alfabeto="0-256")
+
+        # iterar pelos ficheiros e mostrar o ifm maximo
+        for i in names:
+            objetivo, _ = get_matrix(i, alfabeto="0-256")
+
+            evolucao_ifm = informacao_mutua(amostra, objetivo, passo=len(amostra)//4)
+            print(i[9:15]+" -> ", np.max(evolucao_ifm))  # informacao mutua maxima
+
     alinhea_b()
