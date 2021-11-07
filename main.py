@@ -67,13 +67,14 @@ def get_matrix(nome_ficheiro, shape=1, alfabeto=''):
         parcelas = alfabeto.split(',')
         d = {}
         for j in parcelas:
-            inicio, fim = sorted(j.split('-'))
-            if inicio.isalpha():
+            if j.split('-')[0].isalpha():
                 # caso sejam letras
+                inicio, fim = sorted(j.split('-'))
                 for i in range(ord(inicio), ord(fim)+1):
                     d[chr(i)] = 0
             else:
                 # caso sejam numeros
+                inicio, fim = sorted(map(int, j.split('-')))
                 for i in range(int(inicio), int(fim)+1):
                     d[i] = 0
         # print(d)
