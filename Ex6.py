@@ -1,4 +1,4 @@
-from main import np, get_matrix, values, plt
+from main import np, get_matrix, plt
 
 
 def informacao_mutua(query, target, passo=1):
