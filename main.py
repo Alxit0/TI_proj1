@@ -100,8 +100,7 @@ def entropia(data: np.ndarray, cont):
     prob = np.asarray(list(cont.values()))  # passar os valores para ndarray
     prob = prob[prob.nonzero()]/tam  # tirar os zeros e dividir pelo tamanho
 
-    # descobri
-    return -np.log2(prob)
+    return sum(-log2(x)*x for x in prob if x!=0)
 
 
 def entropia_huf(data, cont):
@@ -118,7 +117,7 @@ def entropia_huf(data, cont):
 values = ['english.txt', 'guitarSolo.wav', 'homer.bmp', 'homerBin.bmp', 'kid.bmp']
 if __name__ == '__main__':
     passo = 1
-    dados, contagem = get_matrix(values[0], passo, 'A-Z,a-z')
+    dados, contagem = get_matrix(values[1], passo, '0-260')
     # print(dados)
     # print(contagem)
     print(entropia(dados, contagem) / passo)
