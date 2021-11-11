@@ -12,7 +12,7 @@ def get_matrix(nome_ficheiro, shape=1, alfabeto=''):
     :param shape: passo para organizar a informacao (default = 1)
     :param alfabeto: setar o alfabeto (so funciona caso o 'shape' = 1)
     a-z => todas as letras de 'a' a 'z'
-    A-Z => versao 'a-z' mass em maiusculas
+    A-Z => versao 'a-z' mas em maiusculas
     x-y => (em que x,y pertencem a N) numeros do x ate ao y
     :return: ndarray de dados, contagem em forma de dicionario
     """
@@ -87,7 +87,7 @@ def get_matrix(nome_ficheiro, shape=1, alfabeto=''):
     return temp, d  # dados do ficherio organizados, contagem(alfabeto = d.keys())
 
 
-def histogram(cont: dict):
+def histograma(cont: dict):
     #  mostra o histograma num grafico de barras
     plt.figure()
     plt.bar(cont.keys(), cont.values())
@@ -100,7 +100,7 @@ def entropia(data: np.ndarray, cont):
     prob = np.asarray(list(cont.values()))  # passar os valores para ndarray
     prob = prob[prob.nonzero()]/tam  # tirar os zeros e dividir pelo tamanho
 
-    return sum(-log2(x)*x for x in prob if x!=0)
+    return sum(-log2(x)*x for x in prob)
 
 
 def entropia_huf(data, cont):
