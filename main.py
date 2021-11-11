@@ -14,6 +14,7 @@ def get_matrix(nome_ficheiro, shape=1, alfabeto=''):
     a-z => todas as letras de 'a' a 'z'
     A-Z => versao 'a-z' mas em maiusculas
     x-y => (em que x,y pertencem a N) numeros do x ate ao y
+    0-100 => todos os numeros de 0 a 100 inclusive
     :return: ndarray de dados, contagem em forma de dicionario
     """
     # camiho para o ficheiro
@@ -117,8 +118,8 @@ def entropia_huf(data, cont):
 values = ['english.txt', 'guitarSolo.wav', 'homer.bmp', 'homerBin.bmp', 'kid.bmp']
 if __name__ == '__main__':
     passo = 1
-    dados, contagem = get_matrix(values[1], passo, '0-260')
+    dados, contagem = get_matrix(values[0], passo, 'a-z,A-Z')
     # print(dados)
     # print(contagem)
-    print(entropia(dados, contagem) / passo)
-    print(entropia_huf(dados, contagem) / passo)
+    print(entropia(dados, contagem))
+    histograma(contagem)
