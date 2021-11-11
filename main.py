@@ -19,7 +19,7 @@ def get_matrix(nome_ficheiro, shape=1, alfabeto=''):
     """
     # camiho para o ficheiro
     # IMPORTANTE - ter os ficheiros numa pasta chamada de 'data'
-    if nome_ficheiro.count("/")==0:
+    if nome_ficheiro.count("/") == 0:
         fonte = 'data/' + nome_ficheiro
     else:
         fonte = nome_ficheiro
@@ -115,11 +115,18 @@ def entropia_huf(data, cont):
     return sum(d)
 
 
-values = ['english.txt', 'guitarSolo.wav', 'homer.bmp', 'homerBin.bmp', 'kid.bmp']
+def variacia(data):
+    codec = huf.HuffmanCodec.from_data(data)
+    _, lenghts = codec.get_code_len()
+    return np.var(lenghts)
+
+
+values = ['english.txt', 'guitarSolo.wav', 'homer.bmp', 'homerBin.bmp', 'kid.bmp', 'teste.txt']
 if __name__ == '__main__':
     passo = 1
-    dados, contagem = get_matrix(values[0], passo, 'a-z,A-Z')
+    dados, contagem = get_matrix(values[4], passo, '0-255')
     # print(dados)
-    # print(contagem)
     print(entropia(dados, contagem))
-    histograma(contagem)
+    print(entropia_huf(dados, contagem))
+    print(variacia(dados))
+
