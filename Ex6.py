@@ -2,34 +2,33 @@ from main import np, get_matrix, plt
 
 
 def informacao_mutua(query, target, passo=1):
-    def entropia(a):
-        _, cnt = np.unique(a, return_counts=True, axis=0)
-        prob = cnt/len(a)
-        return np.sum(-1*prob*np.log2(prob))
-
-    def entropia_conj(a, b):
-        # o mesmo que entropia([*zip(a, b)])
-        return entropia(np.c_[a, b])
-
     def inf_mutua(a, b) -> float:
         # H(a) + H(b) - Hconjunta(a, b)
         return entropia(a) + entropia(b) - entropia_conj(a, b)
 
-    lenght = len(query)
+    def entropia_conj(a, b):
+        arry_temp = [*zip(a, b)]
+        return entropia(arry_temp)
+
+    def entropia(a):
+        _, cnt = np.unique(a, return_counts=True, axis=0)  # achar as contagens
+        prob = cnt / len(a)
+        return np.sum(-1 * prob * np.log2(prob))
+
+    lenght = len(query)  # tamanho
     query = np.asarray(query)
     final = []
     for i in range(0, len(target)-lenght+1, passo):
         temp = np.asarray(target[i:i+lenght])
-
-        final += round(inf_mutua(query, temp), 4),
+        final += round(inf_mutua(query, temp), 4),  # adicionar o valor a lista final
     return np.asarray(final)
 
 
-def visualizacao_dados(data: np.ndarray):
-    plt.figure()
-    plt.plot([*range(len(data))], data)
+def visualizacao_dados(data: np.ndarray, a):
+    fig, x = plt.subplots()
+    x.plot(data)
+    x.plot(a)
     plt.show()
-    # plt.close()
 
 
 if __name__ == '__main__':
@@ -62,20 +61,16 @@ if __name__ == '__main__':
         print(ifm)
 
     def alinhea_b():
-        # inacaba porque ainda nao da para ver a variacao mas ja temos os resultados
         amostra, _ = get_matrix("data_ex6/saxriff.wav", alfabeto="0-256")
 
         objetivo_1, _ = get_matrix("data_ex6/target01 - repeat.wav", alfabeto="0-256")
         objetivo_2, _ = get_matrix("data_ex6/target02 - repeatNoise.wav", alfabeto="0-256")
 
-        print("query  ->", amostra)
-        print("target ->", objetivo_1)
-
-        ifm = informacao_mutua(amostra, objetivo_1, passo=len(amostra)//4)  # target 01
-        # ifm = informacao_mutua(amostra, objetivo_2, passo=len(amostra)//4)  # target 02
-
-        print(ifm)
-        visualizacao_dados(ifm)
+        ifm_1 = informacao_mutua(amostra, objetivo_1, passo=len(amostra)//4)  # target 01
+        ifm_2 = informacao_mutua(amostra, objetivo_2, passo=len(amostra)//4)  # target 02
+        print("target01 - repeat.wav =>", ifm_1)
+        print("target02 - repeatNoise.wav =>", ifm_2)
+        visualizacao_dados(ifm_1, ifm_2)
 
     def alinhea_c():
         # gerar os nomes para os ficheiros
@@ -86,22 +81,15 @@ if __name__ == '__main__':
 
         # iniciar a query
         amostra, _ = get_matrix("data_ex6/saxriff.wav", alfabeto="0-256")
-
+        d = {}
         # iterar pelos ficheiros e mostrar o ifm maximo
         for i in names:
             objetivo, _ = get_matrix(i, alfabeto="0-256")
 
             evolucao_ifm = informacao_mutua(amostra, objetivo, passo=len(amostra)//4)
-            print(i[9:15]+" -> ", np.max(evolucao_ifm))  # informacao mutua maxima
-
-    '''
-    IMPORTANTE - ter os ficheiros para este exercicio numa pasta chamada 'data_ex6'
-    IMPORTANTE - Na alinhea b) nao sei como fechar um grafico depois de algum tempo e depois abrir outro
-                   se quiserem ver os dois tem de os mudar (basta 'descomentar' um e comentar o outro)
-                 Se quizerem trabalhar nisso nao reclamo.
-    IMPORTANTE - Na alinhea c) do 'Song05' ate ao final demora uns segundos mas nao se preocupem
-                   que ele corre. Nao sei onde melhorar mais
-    '''
+            d[i[9:19]] = np.max(evolucao_ifm)
+        for i in (sorted(d.keys(), key=d.__getitem__, reverse=True)):
+            print(f"{i}: {d[i]}")
 
     # alinhea_a()
     # alinhea_b()

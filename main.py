@@ -43,7 +43,7 @@ def get_matrix(nome_ficheiro, shape=1, alfabeto=''):
             temp = temp[:, 0]  # so apanhar o primeiro canal (nao sei se o 0 é o esquerdo ou o direito)
 
     # creation
-    if shape == 2:
+    if shape > 1:
         # retirar elemento extra caso o num de elementos seja impar
         desvio = temp.shape[0] % shape
         if desvio != 0:
@@ -123,10 +123,8 @@ def variacia(data):
 
 values = ['english.txt', 'guitarSolo.wav', 'homer.bmp', 'homerBin.bmp', 'kid.bmp', 'teste.txt']
 if __name__ == '__main__':
-    passo = 1
-    dados, contagem = get_matrix(values[4], passo, '0-255')
-    # print(dados)
-    print(entropia(dados, contagem))
-    print(entropia_huf(dados, contagem))
-    print(variacia(dados))
-
+    passo = 2
+    for i in values:
+        print("="*20)
+        print(i)
+        print("Normal  ->", round(entropia(*get_matrix(i, 2, '')), 5)/passo)
