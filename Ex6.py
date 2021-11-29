@@ -88,6 +88,8 @@ if __name__ == '__main__':
 
             evolucao_ifm = informacao_mutua(amostra, objetivo, passo=len(amostra)//4)
             d[i[9:19]] = np.max(evolucao_ifm)
+            print(end='#')
+
         for i in (sorted(d.keys(), key=d.__getitem__, reverse=True)):
             print(f"{i}: {d[i]}")
 
