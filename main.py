@@ -99,7 +99,7 @@ def histograma(cont: dict):
 def entropia(data: np.ndarray, cont):
     tam = data.shape[0]
     prob = np.asarray(list(cont.values()))  # passar os valores para ndarray
-    prob = prob[prob.nonzero()]/tam  # tirar os zeros e dividir pelo tamanho
+    prob = prob[prob.nonzero()]/tam  # tirar os zeros e dividir os elementos pelo tamanho
 
     return sum(-log2(x)*x for x in prob)
 
@@ -124,7 +124,8 @@ def variacia(data):
 values = ['english.txt', 'guitarSolo.wav', 'homer.bmp', 'homerBin.bmp', 'kid.bmp', 'teste.txt']
 if __name__ == '__main__':
     passo = 2
+
     for i in values:
         print("="*20)
         print(i)
-        print("Normal  ->", round(entropia(*get_matrix(i, 2, '')), 5)/passo)
+        print("Normal  ->", round(entropia(*get_matrix(i, 2)), 5)/passo)
